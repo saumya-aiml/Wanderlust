@@ -1,12 +1,1 @@
-{
-  "name": "majorprojects",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "license": "ISC",
-  "type": "commonjs"
-}
+{"engines":{"node":"24.19.0"},"name":"majorprojects","version":"1.0.0","description":"","main":"index.js","scripts":{"test":"echo \"Error: no test specified\" && exit 1"},"keywords":[],"license":"ISC","type":"commonjs","dependencies":{"@mapbox/mapbox-sdk":"^0.16.2","cloudinary":"^2.11.0","connect":"^3.7.0","mongo":"^0.1.0"}}
