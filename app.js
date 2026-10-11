@@ -1,7 +1,7 @@
-if (process.env.NODE_ENV = "production") {
-    require('dotenv').config()
-}
-
+// if (process.env.NODE_ENV = "production") {
+//     require('dotenv').config();
+// }
+require('dotenv').config();
 
 //basic setup
 const express = require("express");
@@ -16,7 +16,7 @@ const ejsMate = require("ejs-mate");
 // const Review = require("./models/review.js");
 const { reviewSchema } = require("./schema.js");
 const session = require("express-session");
-const mongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo").default;
 
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -33,17 +33,25 @@ const dbUrl = process.env.ATLASDB_URL;
 const path = require("path");
 const { Serializer, Deserializer } = require("v8");
 // const review = require("./models/review.js");
-main().then(() => {
-    console.log("connect to databse");
+// main().then(() => {
+//     console.log("connect to databse");
 
-})
-    .catch((err) => {
-        console.log("err");
-    })
+// })
+//     .catch((err) => {
+//         console.log("err");
+//     });
+
 //for database
 async function main() {
-    mongoose.connect(dbUrl);
+    await mongoose.connect(dbUrl);
+    console.log("connect to mongodb atlas");
 }
+main().catch((err) => {
+    console.error("MongoDB connection failed:", err.message);
+});
+
+
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -51,7 +59,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
-const store = mongoStore.create({
+const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
         secret: process.env.SECRET,
@@ -92,9 +100,10 @@ passport.deserializeUser(User.deserializeUser());
 passport.use(User.createStrategy());
 
 app.use((req, res, next) => {
+    res.locals.currUser = req.user;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-    res.locals.currUser = req.user;
+
 
     next();
 });
