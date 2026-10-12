@@ -29,7 +29,7 @@ const userRouter = require("./routes/user.js");
 const { isLoggedIn } = require("./middleware.js");
 let ports = 8080;
 
-const dbUrl = process.env.ATLASDB_URL;
+// const dbUrl = process.env.ATLASDB_URL;
 const path = require("path");
 const { Serializer, Deserializer } = require("v8");
 // const review = require("./models/review.js");
@@ -42,25 +42,30 @@ const { Serializer, Deserializer } = require("v8");
 //     });
 
 //for database
+// async function main() {
+//     await mongoose.connect(dbUrl);
+//     console.log("connect to mongodb atlas");
+// }
+// main().catch((err) => {
+//     console.error("MongoDB connection failed:", err.message);
+// });
+main()
+    .then(() => console.log("Connected to MongoDB Atlas"))
+    .catch((err) => console.log("MongoDB connection error:", err));
+
 async function main() {
-    await mongoose.connect(dbUrl);
-    console.log("connect to mongodb atlas");
+    await mongoose.connect(process.env.ATLASDB_URL);
 }
-main().catch((err) => {
-    console.error("MongoDB connection failed:", err.message);
-});
-
-
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 const store = MongoStore.create({
-    mongoUrl: dbUrl,
+    mongoUrl: process.env.ATLASDB_URL,
     crypto: {
         secret: process.env.SECRET,
     },
@@ -125,8 +130,9 @@ app.use("/", userRouter);
 
 
 app.use((err, req, res, next) => {
+    console.error(err);
 
-    let { statusCode = 402, message = "something went wrong" } = err;
+    let { statusCode = 500, message = "something went wrong" } = err;
     res.status(statusCode).render("listings/error.ejs", { message });
     // res.status(statusCode).send(message);
 

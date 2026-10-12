@@ -15,14 +15,15 @@ const upload = multer({ storage });
 
 const { index, renderNewForm, renderShowForm, renderCreateForm, renderEditForm, renderDeleteForm } = require("../controllers/listings.js");
 
-const wrapasync = require("../utilis/wrapasync.js");
+// const wrapasync = require("../utilis/wrapasync.js");
 
 console.log(typeof index);
 
 
 router.route("/")
     .get(wrapAsync(index))
-    .post(isLoggedIn,
+    .post(
+        isLoggedIn,
         upload.single("listing[image]"),
         validateListing,
         wrapAsync(renderCreateForm)
@@ -40,7 +41,7 @@ router.route("/:id")
     )
     .put(isLoggedIn, isOwner, upload.single("listing[image]"), validateListing, wrapAsync(renderUpdateForm)
     )
-    .delete(isLoggedIn, isOwner, wrapasync(renderDeleteForm)
+    .delete(isLoggedIn, isOwner, wrapAsync(renderDeleteForm)
     );
 
 

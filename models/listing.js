@@ -5,9 +5,15 @@ const listingSchema = new mongoose.Schema({
     title: String,
     description: String,
     image: {
-        type: String,
-        filename: String,
-        url: String
+        // type: String,
+        filename: {
+            type: String,
+            default: "listingimage"
+        },
+        url: {
+            type: String,
+            default: "modern-stone-and-glass-house-at-night-photo"
+        }
     },
     price: Number,
     location: String,
@@ -32,14 +38,15 @@ const listingSchema = new mongoose.Schema({
     geometry: {
         type: {
             type: String, // Don't do `{ location: { type: String } }`
-            enum: ['Point'], // 'location.type' must be 'Point'
+            enum: ["Point"], // 'location.type' must be 'Point'
             required: true
         },
         coordinates: {
             type: [Number],
             required: true
         }
-    }
+
+    },
 
 });
 

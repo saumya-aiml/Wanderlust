@@ -1,12 +1,19 @@
-{/* let mapToken = mapToken;
 
-    console.log(mapToken); */}
+// const coordinates = listing.geometry.coordinates;
+console.log("Coordinates:", coordinates);
+
+
+console.log("Map JS coordinates:", coordinates);
+console.log("Coordinates type:", typeof coordinates);
+console.log("Is array:", Array.isArray(coordinates));
 
 mapboxgl.accessToken = mapToken;
 
+
 const map = new mapboxgl.Map({
-    container: 'map',// container ID
-    center: listing.geometry.coordinates, //starting position [lng, lat]. Note that lat must be set between -90 and 90
+    container: "map",// container ID
+    style: "mapbox://styles/mapbox/streets-v12",
+    center: coordinates, //starting position [lng, lat]. Note that lat must be set between -90 and 90
     zoom: 9 // starting zoom
 });
 console.log(coordinates);
@@ -22,5 +29,11 @@ const marker = new mapboxgl.Marker({ color: 'red' })
 
 
 
+map.on("load", () => {
+    console.log("Map successfully loaded!");
+});
 
+map.on("error", (e) => {
+    console.error("Mapbox error:", e.error);
+});
 

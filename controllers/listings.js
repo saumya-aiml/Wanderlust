@@ -1,8 +1,8 @@
 const Listing = require("../models/listing.js");
 const expressError = require("../utilis/expressError.js");
-const mbxgeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN
-const baseclient = mbxgeocoding({ accessToken: mapToken });
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 const index = (async (req, res) => {
 
     const allListings = await Listing.find({});
@@ -37,41 +37,52 @@ const renderShowForm = async (req, res) => {
         req.flash("error", "Listing does not exist");
         return res.redirect("/listings");
     }
+    console.log("Listing geometry:", listing.geometry);
+    console.log("Listing coordinates:", listing.geometry?.coordinates);
+    console.log("Listing location:", listing.location);
 
     res.render("listings/show.ejs", { listing });
 };
 const renderCreateForm = async (req, res, next) => {
-    let response = await geocodingClient
-        .forwardGeocode({
-            query: res.body.listing.location,
-            limit: 1,
-        })
-        .send();
+    try {
 
 
-    //file path and filename
-    const url = req.file.path;
-    const fileName = req.file.filename;
-    console.log(url, "..", fileName);
+        let response = await geocodingClient
+            .forwardGeocode({
+                query: req.body.listing.location,
+                limit: 1,
+            })
+            .send();
+        console.log(response);
+        console.log("done");
 
-    // console.log("BODY:", req.body);
-    // console.log("LISTING:", req.body.listing);
-    const newListing = new Listing(req.body.listing);
-    //owner
-    console.log("res.user");
-    newListing.owner = req.user._id;
-    console.log("NEW LISTING:", newListing);
+        //file path and filename
+        const url = req.file.path;
+        const filename = req.file.filename;
+        console.log(url, "..", fileName);
+
+        // console.log("BODY:", req.body);
+        // console.log("LISTING:", req.body.listing);
+        const newListing = new Listing(req.body.listing);
+        //owner
+        console.log("res.user");
+        newListing.owner = req.user._id;
+        console.log("NEW LISTING:", newListing);
 
 
-    newListing.image = { url, fileName };
-    newListing.geometry = response.body.features[0].geometry
-    let savedListing = await newListing.save();
-    console.log(savedListing);
-    req.flash("success", "new listing created successfully");
-    res.redirect("/listings");
-
-
+        newListing.image = { url, fileName };
+        newListing.geometry = response.body.features[0].geometry;
+        let savedListing = await newListing.save();
+        console.log(savedListing);
+        req.flash("success", "new listing created successfully");
+        res.redirect("/listings");
+    }
+    catch (err) {
+        next(err);
+    }
 };
+
+
 const renderEditForm = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
