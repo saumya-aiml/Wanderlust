@@ -40,11 +40,15 @@ const isOwner = async (req, res, next) => {
 const validateListing = (req, res, next) => {
     let { error } = listingSchema.validate(req.body);
     if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new expressError(400, errMsg);
-    } else {
-        next();
+        const errMsg = error.details
+            .map((el) => el.message)
+            .join(",");
+        console.log("Listing body:", req.body);
+        console.log("Listing validation failed:", errMsg);
+        return next(new expressError(400, errMsg));
     }
+    next();
+
 };
 const validateReview = (req, res, next) => {
     let { error } = reviewSchema.validate(req.body);

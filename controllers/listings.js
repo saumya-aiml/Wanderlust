@@ -59,7 +59,7 @@ const renderCreateForm = async (req, res, next) => {
         //file path and filename
         const url = req.file.path;
         const filename = req.file.filename;
-        console.log(url, "..", fileName);
+        console.log(url, "..", filename);
 
         // console.log("BODY:", req.body);
         // console.log("LISTING:", req.body.listing);
@@ -70,7 +70,7 @@ const renderCreateForm = async (req, res, next) => {
         console.log("NEW LISTING:", newListing);
 
 
-        newListing.image = { url, fileName };
+        newListing.image = { url, filename };
         newListing.geometry = response.body.features[0].geometry;
         let savedListing = await newListing.save();
         console.log(savedListing);
@@ -90,7 +90,7 @@ const renderEditForm = async (req, res) => {
         req.flash("error", "listing you required for doesnot exits");
         res.redirect("/listings");
     }
-    const originalImageUrl = listing.image.url;
+    let originalImageUrl = listing.image.url;
     originalImageUrl = originalImageUrl.replace("/upload", "/upload/h_300,w_250");
     res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
@@ -104,9 +104,9 @@ const renderUpdateForm = async (req, res) => {
 
     if (typeof req.file !== "undefined") {
         const url = req.file.path;
-        const fileName = req.file.filename;
-        console.log(url, "..", fileName);
-        listing.image = { url, fileName };
+        const filename = req.file.filename;
+        console.log(url, "..", filename);
+        listing.image = { url, filename };
         await listing.save();
     }
 
