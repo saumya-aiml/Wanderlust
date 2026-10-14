@@ -38,7 +38,7 @@ const renderShowForm = async (req, res) => {
         return res.redirect("/listings");
     }
     console.log("Listing geometry:", listing.geometry);
-    console.log("Listing coordinates:", listing.geometry?.coordinates);
+    console.log("Listing coordinates:", listing.geometry.coordinates);
     console.log("Listing location:", listing.location);
 
     res.render("listings/show.ejs", { listing });
@@ -83,16 +83,45 @@ const renderCreateForm = async (req, res, next) => {
 };
 
 
-const renderEditForm = async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
-    if (!listing) {
-        req.flash("error", "listing you required for doesnot exits");
-        res.redirect("/listings");
+// const renderEditForm = async (req, res) => {
+//     let { id } = req.params;
+//     const listing = await Listing.findById(id);
+//     if (!listing) {
+//         req.flash("error", "listing you required for doesnot exits");
+//         res.redirect("/listings");
+//     }
+//     let originalImageUrl = listing.image.url;
+//     originalImageUrl = originalImageUrl.replace("/upload", "/upload/h_300,w_250");
+//     res.render("listings/edit.ejs", { listing, originalImageUrl });
+// };
+const renderEditForm = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const listing = await Listing.findById(id);
+
+        if (!listing) {
+            req.flash("error", "Listing does not exist!");
+            return res.redirect("/listings");
+        }
+
+        console.log("Image object:", listing.image);
+
+        let originalImageUrl = listing.image?.url;
+
+        if (originalImageUrl) {
+            originalImageUrl = originalImageUrl.replace(
+                "/upload",
+                "/upload/h_300,w_250"
+            );
+        }
+
+        res.render("listings/edit.ejs", {
+            listing,
+            originalImageUrl
+        });
+    } catch (err) {
+        next(err);
     }
-    let originalImageUrl = listing.image.url;
-    originalImageUrl = originalImageUrl.replace("/upload", "/upload/h_300,w_250");
-    res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 const renderUpdateForm = async (req, res) => {
     if (!req.body.listing) {
@@ -100,7 +129,9 @@ const renderUpdateForm = async (req, res) => {
     }
     let { id } = req.params;
 
-    const listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    const listing = await Listing.findByIdAndUpdate(id,
+        { ...req.body.listing });
+
 
     if (typeof req.file !== "undefined") {
         const url = req.file.path;

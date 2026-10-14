@@ -25,6 +25,7 @@ router.route("/")
     .post(
         isLoggedIn,
         upload.single("listing[image]"),
+
         validateListing,
         wrapAsync(renderCreateForm)
     );

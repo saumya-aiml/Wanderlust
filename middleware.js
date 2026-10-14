@@ -37,6 +37,19 @@ const isOwner = async (req, res, next) => {
     }
     next();
 };
+//
+// const fixListingLocation = (req, res, next) => {
+//     if (req.body["listing."]?.location) {
+//         req.body.listing = req.body.listing || {};
+
+//         req.body.listing.location =
+//             req.body["listing."].location;
+
+//         delete req.body["listing."];
+//     }
+
+//     next();
+// };
 const validateListing = (req, res, next) => {
     let { error } = listingSchema.validate(req.body);
     if (error) {
