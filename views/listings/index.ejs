@@ -1,43 +1,5 @@
 <% layout("/layouts/boilerplate") %>
 
-    <style>
-        #filters {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .filters {
-            text-align: center;
-            margin-right: 2rem;
-            margin-left: 2rem;
-            opacity: 0.7;
-        }
-
-        .filter:hover {
-            opacity: 1;
-            cursor: pointer;
-        }
-
-        .filter p {
-            font-size: 0.8rem;
-        }
-
-        .tax-info {
-            display: none;
-        }
-
-        .tax-toggle {
-            border: 1px solid black;
-            border-radius: 1rem;
-            height: 3.5rem;
-            padding: 1rem;
-            margin-left: 5rem;
-            display: flex;
-            align-items: center;
-        }
-    </style>
-
     <!-- <h1> All Listings</h1> -->
     <!-- <form method="GET" action="/listings/new">
             <button class="btn btn-dark">create new listings </button>
@@ -49,15 +11,15 @@
         </div>
         <div class="filter">
             <div><i class="fa-solid fa-fire"></i></div>
-            <p>rooms</p>
+           <p>rooms</p>
         </div>
         <div class="filter">
             <div><i class="fa-solid fa-mountain-city"></i></div>
-            <p>mountains cities</p>
+           <p>mountains cities</p>
         </div>
         <div class="filter">
             <div><i class="fa-solid fa-mountain"></i></div>
-            <p>mountain</p>
+           <p>mountain</p>
         </div>
         <div class="filter">
             <div><i class="fa-brands fa-fort-awesome"></i></div>
@@ -65,11 +27,11 @@
         </div>
         <div class="filter">
             <div><i class="fa-solid fa-snowflake"></i></div>
-            <p>arctic</p>
+           <p>arctic</p>
         </div>
         <div class="filter">
             <div><i class="fa-solid fa-tents"></i></div>
-            <p>camping</p>
+           <p>camping</p>
         </div>
         <div class="filter">
             <div><i class="fa-solid fa-truck-field"></i></div>
@@ -78,12 +40,13 @@
         <div class="tax-toggle">
             <div class="form-check-reverse form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-                <label class="form-check-label" for="switchCheckDefault">display display after taxes</label>
+                <label class="form-check-label" for="switchCheckDefault"> Display after taxes</label>
             </div>
         </div>
     </div>
     <br />
-    <div class="row row-cols-lg-3 row-cols-md-2 row-col-sm-1">
+    <!-- <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1"> -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
         <% for(let listing of allListings ) { %>
             <a href="/listings/<%=listing._id %>" class=" card-link">
                 <div class="card col listing-card">

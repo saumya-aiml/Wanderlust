@@ -139,3 +139,52 @@ body {
     bottom: 0; */
 
 }
+
+        #filters {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 1.5rem 0;
+             width: 100%;
+             gap: 60px;
+        }
+
+        .filters {
+            text-align: center;
+            margin-right: 2rem;
+            margin-left: 2rem;
+            opacity: 0.7;
+            padding: 2rem ;
+          
+        }
+
+        .filter:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+        .filter i {
+            font-size: 1.3rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .filter span {
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .tax-info {
+            display: none;
+        }
+
+        .tax-toggle {
+            border: 1px solid black;
+            border-radius: 1rem;
+            height: 3.5rem;
+            padding: 1rem;
+            margin-left: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .tax-toggle label {
+           font-size: 0.85rem;
+        }
