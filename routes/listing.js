@@ -40,7 +40,11 @@ router.get("/new", isLoggedIn, renderNewForm);
 router.route("/:id")
     .get(isLoggedIn, wrapAsync(renderShowForm)
     )
-    .put(isLoggedIn, isOwner, upload.single("listing[image]"), validateListing,
+    .put( (req, res, next) => {
+            console.log("PUT ROUTE REACHED");
+            next();
+        },
+        isLoggedIn, isOwner, upload.single("listing[image]"), validateListing,
         wrapAsync(renderUpdateForm)
     )
     .delete(isLoggedIn, isOwner, wrapAsync(renderDeleteForm)

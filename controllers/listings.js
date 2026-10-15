@@ -2,6 +2,7 @@ const Listing = require("../models/listing.js");
 const expressError = require("../utilis/expressError.js");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
+
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 const index = (async (req, res) => {
 
@@ -131,6 +132,7 @@ const renderUpdateForm = async (req, res) => {
 
     const listing = await Listing.findByIdAndUpdate(id,
         { ...req.body.listing });
+        
 
 
     if (typeof req.file !== "undefined") {

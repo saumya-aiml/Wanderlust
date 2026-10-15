@@ -57,6 +57,7 @@ main()
 async function main() {
     await mongoose.connect(process.env.ATLASDB_URL);
 }
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -139,7 +140,10 @@ app.use((err, req, res, next) => {
 
 });
 
-
+app.use((req, res, next) => {
+    console.log("REQUEST:", req.method, req.originalUrl);
+    next();
+});
 app.listen(ports, (req, res) => {
     console.log("server works");
 });
