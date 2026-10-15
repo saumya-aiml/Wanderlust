@@ -1,6 +1,6 @@
-if (process.env.NODE_ENV === "production") {
-    // require('dotenv').config();
-}
+// if (process.env.NODE_ENV === "production") {
+//     require('dotenv').config();
+// }
 require('dotenv').config();
 
 //basic setup
@@ -49,7 +49,7 @@ const { Serializer, Deserializer } = require("v8");
 // main().catch((err) => {
 //     console.error("MongoDB connection failed:", err.message);
 // });
-
+console.log("Map token exists:", !!process.env.MAP_TOKEN);
 main()
     .then(() => console.log("Connected to MongoDB Atlas"))
     .catch((err) => console.log("MongoDB connection error:", err));
