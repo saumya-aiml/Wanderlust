@@ -49,6 +49,7 @@ const { Serializer, Deserializer } = require("v8");
 // main().catch((err) => {
 //     console.error("MongoDB connection failed:", err.message);
 // });
+
 main()
     .then(() => console.log("Connected to MongoDB Atlas"))
     .catch((err) => console.log("MongoDB connection error:", err));
