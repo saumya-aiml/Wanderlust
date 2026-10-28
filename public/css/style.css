@@ -142,7 +142,7 @@ body {
 
         #filters {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowwrap;
             align-items: center;
             padding: 1.5rem 0;
              width: 100%;
